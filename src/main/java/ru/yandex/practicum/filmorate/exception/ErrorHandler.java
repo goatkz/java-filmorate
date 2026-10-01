@@ -5,18 +5,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Map;
+
 @RestControllerAdvice
 public class ErrorHandler {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleValidationException(ValidationException exception) {
-        return exception.getMessage();
+    public Map<String, String> handleValidationException(
+            ValidationException exception) {
+        return Map.of("error", exception.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleNotFoundException(NotFoundException exception) {
-        return exception.getMessage();
+    public Map<String, String> handleNotFoundException(
+            NotFoundException exception) {
+        return Map.of("error", exception.getMessage());
     }
 }
