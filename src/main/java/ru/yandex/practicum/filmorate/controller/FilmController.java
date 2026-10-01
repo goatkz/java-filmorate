@@ -44,7 +44,10 @@ public class FilmController {
                 .orElseThrow(() -> {
                     log.warn("Фильм с id={} не найден", film.getId());
                     return new NotFoundException(
-                            "Фильм с таким id не найден"
+                            String.format(
+                                    "Фильм с id=%d не найден",
+                                    film.getId()
+                            )
                     );
                 });
 
@@ -86,12 +89,12 @@ public class FilmController {
 
         if (film.getDuration() <= 0) {
             log.warn(
-                    "Ошибка валидации: продолжительность фильма " +
-                            "должна быть положительной"
+                    "Ошибка валидации: продолжительность фильма "
+                            + "должна быть положительной"
             );
             throw new ValidationException(
-                    "Продолжительность фильма должна быть " +
-                            "положительным числом"
+                    "Продолжительность фильма должна быть "
+                            + "положительным числом"
             );
         }
     }
