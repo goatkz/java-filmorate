@@ -1,12 +1,15 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
 import java.time.LocalDate;
@@ -90,45 +93,6 @@ public class FilmController {
                     "Продолжительность фильма должна быть " +
                             "положительным числом"
             );
-        }
-
-        validateMpa(film.getMpa());
-        validateGenres(film.getGenres());
-    }
-
-    private void validateMpa(Mpa mpa) {
-        if (mpa == null) {
-            log.warn("Ошибка валидации: рейтинг MPA не указан");
-            throw new ValidationException(
-                    "Рейтинг MPA не может быть пустым"
-            );
-        }
-
-        if (mpa.getId() < 1 || mpa.getId() > 5) {
-            log.warn("Ошибка валидации: некорректный рейтинг MPA");
-            throw new ValidationException(
-                    "Некорректный рейтинг MPA"
-            );
-        }
-    }
-
-    private void validateGenres(List<Genre> genres) {
-        if (genres == null) {
-            log.warn("Ошибка валидации: список жанров не указан");
-            throw new ValidationException(
-                    "Список жанров не может быть null"
-            );
-        }
-
-        for (Genre genre : genres) {
-            if (genre == null
-                    || genre.getId() < 1
-                    || genre.getId() > 6) {
-                log.warn("Ошибка валидации: некорректный жанр");
-                throw new ValidationException(
-                        "Некорректный жанр"
-                );
-            }
         }
     }
 }
