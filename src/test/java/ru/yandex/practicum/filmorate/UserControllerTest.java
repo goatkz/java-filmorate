@@ -1,16 +1,23 @@
+
 package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserControllerTest {
 
-    private final UserController controller = new UserController();
+    private final UserController controller =
+            new UserController(
+                    new UserService(new InMemoryUserStorage())
+            );
 
     @Test
     void createUser_whenEmailIsInvalid_throwsException() {
@@ -20,7 +27,10 @@ class UserControllerTest {
         user.setName("Alex");
         user.setBirthday(LocalDate.of(1990, 1, 1));
 
-        assertThrows(ValidationException.class, () -> controller.createUser(user));
+        assertThrows(
+                ValidationException.class,
+                () -> controller.createUser(user)
+        );
     }
 
     @Test
@@ -31,7 +41,10 @@ class UserControllerTest {
         user.setName("Alex");
         user.setBirthday(LocalDate.of(1990, 1, 1));
 
-        assertThrows(ValidationException.class, () -> controller.createUser(user));
+        assertThrows(
+                ValidationException.class,
+                () -> controller.createUser(user)
+        );
     }
 
     @Test
@@ -42,7 +55,10 @@ class UserControllerTest {
         user.setName("Alex");
         user.setBirthday(LocalDate.of(1990, 1, 1));
 
-        assertThrows(ValidationException.class, () -> controller.createUser(user));
+        assertThrows(
+                ValidationException.class,
+                () -> controller.createUser(user)
+        );
     }
 
     @Test
@@ -53,7 +69,10 @@ class UserControllerTest {
         user.setName("Alex");
         user.setBirthday(LocalDate.now().plusDays(1));
 
-        assertThrows(ValidationException.class, () -> controller.createUser(user));
+        assertThrows(
+                ValidationException.class,
+                () -> controller.createUser(user)
+        );
     }
 
     @Test
@@ -73,6 +92,9 @@ class UserControllerTest {
     void createUser_whenRequestIsEmpty_throwsException() {
         User user = new User();
 
-        assertThrows(ValidationException.class, () -> controller.createUser(user));
+        assertThrows(
+                ValidationException.class,
+                () -> controller.createUser(user)
+        );
     }
 }
