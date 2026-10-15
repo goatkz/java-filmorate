@@ -23,8 +23,8 @@ import java.util.Collection;
 @RequestMapping("/films")
 public class FilmController {
 
-    private static final LocalDate MIN_RELEASE_DATE =
-            LocalDate.of(1895, 12, 28);
+    private static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
+    private static final String FILM_LIKE_PATH = "/{id}/like/{userId}";
 
     private final FilmService filmService;
 
@@ -35,20 +35,16 @@ public class FilmController {
     @PostMapping
     public Film createFilm(@RequestBody Film film) {
         validateFilm(film);
-
         Film createdFilm = filmService.addFilm(film);
         log.info("Добавлен новый фильм: {}", createdFilm);
-
         return createdFilm;
     }
 
     @PutMapping
     public Film updateFilm(@RequestBody Film film) {
         validateFilm(film);
-
         Film updatedFilm = filmService.updateFilm(film);
         log.info("Обновлён фильм: {}", updatedFilm);
-
         return updatedFilm;
     }
 
@@ -68,7 +64,7 @@ public class FilmController {
         return filmService.getPopularFilms(count);
     }
 
-    @PutMapping("/{id}/like/{userId}")
+    @PutMapping(FILM_LIKE_PATH)
     public void addLike(
             @PathVariable int id,
             @PathVariable int userId) {
@@ -76,7 +72,7 @@ public class FilmController {
         log.info("Пользователь {} поставил лайк фильму {}", userId, id);
     }
 
-    @DeleteMapping("/{id}/like/{userId}")
+    @DeleteMapping(FILM_LIKE_PATH)
     public void removeLike(
             @PathVariable int id,
             @PathVariable int userId) {

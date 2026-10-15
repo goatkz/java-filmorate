@@ -20,7 +20,7 @@ class UserControllerTest {
             );
 
     @Test
-    void createUser_whenEmailIsInvalid_throwsException() {
+    void createUserWithInvalidEmail() {
         User user = new User();
         user.setEmail("invalid-email");
         user.setLogin("alex");
@@ -34,7 +34,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_whenLoginIsEmpty_throwsException() {
+    void createUserWithEmptyLogin() {
         User user = new User();
         user.setEmail("alex@mail.com");
         user.setLogin("");
@@ -48,7 +48,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_whenLoginContainsSpaces_throwsException() {
+    void createUserWithLoginSpaces() {
         User user = new User();
         user.setEmail("alex@mail.com");
         user.setLogin("alex test");
@@ -62,7 +62,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_whenBirthdayIsInFuture_throwsException() {
+    void createUserWithFutureBirthday() {
         User user = new User();
         user.setEmail("alex@mail.com");
         user.setLogin("alex");
@@ -76,7 +76,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_whenNameIsEmpty_usesLoginAsName() {
+    void createUserWithEmptyName() {
         User user = new User();
         user.setEmail("alex@mail.com");
         user.setLogin("alex");
@@ -89,7 +89,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_whenRequestIsEmpty_throwsException() {
+    void createUserWithEmptyRequest() {
         User user = new User();
 
         assertThrows(
