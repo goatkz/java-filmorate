@@ -1,4 +1,3 @@
-
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
@@ -61,6 +60,8 @@ public class UserService {
     @Transactional
     public void removeFriend(int userId, int friendId) {
         User user = getUserById(userId);
+        getUserById(friendId);
+
         user.getFriends().remove(friendId);
 
         userStorage.update(user);

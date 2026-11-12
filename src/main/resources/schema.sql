@@ -31,10 +31,14 @@ CREATE TABLE IF NOT EXISTS films (
 CREATE TABLE IF NOT EXISTS film_genres (
                                            film_id INTEGER NOT NULL,
                                            genre_id INTEGER NOT NULL,
+                                           genre_order INTEGER NOT NULL DEFAULT 0,
                                            PRIMARY KEY (film_id, genre_id),
     FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genres(id)
     );
+
+ALTER TABLE film_genres
+    ADD COLUMN IF NOT EXISTS genre_order INTEGER DEFAULT 0 NOT NULL;
 
 CREATE TABLE IF NOT EXISTS film_likes (
                                           film_id INTEGER NOT NULL,
