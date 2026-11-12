@@ -1,6 +1,8 @@
+
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -40,6 +42,7 @@ public class UserService {
                 ));
     }
 
+    @Transactional
     public void addFriend(int userId, int friendId) {
         if (userId == friendId) {
             throw new ValidationException(
@@ -48,18 +51,19 @@ public class UserService {
         }
 
         User user = getUserById(userId);
-        User friend = getUserById(friendId);
+        getUserById(friendId);
 
         user.getFriends().add(friendId);
-        friend.getFriends().add(userId);
+
+        userStorage.update(user);
     }
 
+    @Transactional
     public void removeFriend(int userId, int friendId) {
         User user = getUserById(userId);
-        User friend = getUserById(friendId);
-
         user.getFriends().remove(friendId);
-        friend.getFriends().remove(userId);
+
+        userStorage.update(user);
     }
 
     public Collection<User> getFriends(int userId) {
