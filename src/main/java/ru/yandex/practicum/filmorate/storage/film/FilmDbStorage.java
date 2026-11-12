@@ -1,3 +1,4 @@
+
 package ru.yandex.practicum.filmorate.storage.film;
 
 import lombok.RequiredArgsConstructor;
@@ -160,12 +161,21 @@ public class FilmDbStorage implements FilmStorage {
         }
 
         String sql = """
-                INSERT INTO film_genres (film_id, genre_id)
-                VALUES (?, ?)
+                INSERT INTO film_genres (film_id, genre_id, genre_order)
+                VALUES (?, ?, ?)
                 """;
 
+        int genreOrder = 0;
+
         for (Genre genre : film.getGenres()) {
-            jdbcTemplate.update(sql, film.getId(), genre.getId());
+            jdbcTemplate.update(
+                    sql,
+                    film.getId(),
+                    genre.getId(),
+                    genreOrder
+            );
+
+            genreOrder++;
         }
     }
 
@@ -191,7 +201,7 @@ public class FilmDbStorage implements FilmStorage {
                 FROM genres AS g
                 JOIN film_genres AS fg ON g.id = fg.genre_id
                 WHERE fg.film_id = ?
-                ORDER BY g.id
+                ORDER BY fg.genre_order
                 """,
                 (rs, rowNum) -> {
                     Genre genre = new Genre();
